@@ -1,0 +1,10 @@
+<h1>Create new article</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'backend:save' %}" method="post">
+{% csrf_token %}
+<span><label for="heading">heading:</label><input type="text" name="heading" value="" size="40"></span><br />
+<span><label for="content">content:</label><textarea name="content" rows="10" cols="50"></textarea></span><br />
+<input type="submit" value="create" />
+</form>
