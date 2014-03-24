@@ -1,14 +1,30 @@
+{% extends "backend.html" %}
+
+{% block container %}
+
 <h1>Create new article</h1>
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if error_message %}<div class="error">{{ error_message }}</div>{% endif %}
 
-<form method="post">{% csrf_token %}
-    {% for field in form %}
-        <div class="fieldWrapper">
-            {{ field.errors }}
-            {{ field.label_tag }} {{ field }}
-        </div>
-    {% endfor %}
-    <input type="submit" value="Submit" />
+<form role="form" method="post">
+{% csrf_token %}
+ 	<div class="form-group">
+		<label for="id_heading">Heading</label>
+		<input placeholder="Your heading" id="id_heading" class="form-control" maxlength="100" name="heading" type="text" value="{{ form.heading.value|default:'' }}">
+        {% if form.heading.errors %}<div class="error">{{ form.heading.errors }}</div>{% endif %}
+	</div>
+	<div class="form-group">
+        <label for="id_content">Content</label>
+        <textarea placeholder="Your content ..." id="id_content" class="form-control" maxlength="500" rows="5" cols="10" name="content" >{{ form.content.value|default:''  }}</textarea>
+        {% if form.content.errors %}<div class="error">{{ form.content.errors }}</div>{% endif %}
+	</div>
+	<div class="form-group">
+        <label for="id_publication">Publication (Format YYYY-MM-DD HH:MM)</label>
+        <input placeholder="YYYY-MM-DD HH:MM" id="id_publication" class="form-control" style="width: 200px" name="publication" type="text" value="{{ form.publication.value|date:"Y-m-d H:i" }}">
+        {% if form.publication.errors %}<div class="error">{{ form.publication.errors }}</div>{% endif %}
+    </div>
+    <input type="submit" class="btn btn-primary" value="submit" />
+    <a href="{% url 'backend:index' %}"><button type="button" class="btn btn-default">cancel</button></a>
 </form>
 
+{% endblock %}

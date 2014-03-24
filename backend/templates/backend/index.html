@@ -1,18 +1,42 @@
-Backend
-<a href="{% url 'backend:create' %}">Create a new article</a>
+{% extends "backend.html" %}
+
+{% block container %}
+
 {% if latest_articles %}
-<ul>
+<h1>All articles</h1>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>heading</th>
+			<th>publication</th>
+			<th>actions</th>
+		</tr>
+	</thead>
+	<tbody>
 	{% for article in latest_articles %}
-	<li><a href="{% url 'backend:detail' article.id %}">{{ article.heading }}</a>
-		<form action="{% url 'backend:delete' %}" method="post">
-			{% csrf_token %}
-			<input type="hidden" name="pk" value="{{ article.id }}" />
-			<input type="submit" value="delete" />
-		</form>
-		<a href="{% url 'backend:edit' article.id %}">update</a>
-	</li>
+		<tr>
+			<td>{{ article.heading }}</td>
+			<td>{{ article.publication }}</td>
+			<td>
+				<ul>
+					<li><a href="{% url 'backend:detail' article.id %}"><button type="button" class="btn btn-default">details</button></a></li>
+					<li><a href="{% url 'backend:edit' article.id %}"><button type="button" class="btn btn-success">update</button></a></li>
+					<li><form action="{% url 'backend:delete' %}" method="post">
+						{% csrf_token %}
+						<input type="hidden" name="pk" value="{{ article.id }}" />
+						<input class="btn btn-danger" type="submit" value="delete" />
+					</form></li>
+				</ul>
+			</td>
+	</tr>
 	{% endfor %}
-</ul>
+	</tbody>
+</table>
 {% else %}
 <p>No articles are available.</p>
 {% endif %}
+<p>
+<a href="{% url 'backend:create' %}"><button type="button" class="btn btn-primary">Create a new article</button></a>
+</p>
+{% endblock %}

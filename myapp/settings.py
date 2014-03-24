@@ -4,6 +4,7 @@
 # If you want to use a different backend you have to remove all occurences
 # of "djangoappengine" from this file.
 from djangoappengine.settings_base import *
+import myapp
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -63,7 +64,9 @@ STATIC_ROOT = ''
 STATIC_URL = '/static/'
 
 # Additional locations of static files
+import os
 STATICFILES_DIRS = (
+    os.path.join(os.path.dirname(os.path.realpath(__file__)), "static"),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -103,6 +106,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'myapp.urls'
 
 TEMPLATE_DIRS = (
+    os.path.join(os.path.dirname(os.path.realpath(__file__)), 'templates/')
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -124,6 +128,7 @@ INSTALLED_APPS = (
     'dbindexer',
     'articles',
     'backend',
+    'accounts',
 
     # djangoappengine should come last, so it can override a few manage.py commands
     'djangoappengine',

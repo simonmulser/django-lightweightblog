@@ -9,7 +9,7 @@ class IndexView(generic.ListView):
     
     def get_queryset(self):
         return Article.objects.filter(
-            publication__lte=timezone.now()).order_by('-publication')[:5]  # @UndefinedVariable
+            publication__lte=timezone.now()).order_by('-publication')[:10]  # @UndefinedVariable
 
 class DetailView(generic.DetailView):
     model = Article

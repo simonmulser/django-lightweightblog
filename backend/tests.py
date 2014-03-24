@@ -3,18 +3,28 @@ from django.core.urlresolvers import reverse
 from articles.tests import create_article
 from django.utils import timezone
 import datetime
-  
+from django.contrib.auth.models import User
+ 
 NO_ARTICLES_STRING = "No articles are available"
 VALID_HEADING = "My heading"
 VALID_CONTENT = "My long content"
 ERROR_MARKUP = 'class="errorlist"'
 
-  
+def login_test_user(self):
+        self.adminuser = User.objects.create_user('admin', 'admin@test.com', 'pass')
+        self.adminuser.save()
+        self.client.login(username='admin', password='pass')
+        
 class BackendIndexViewTests(TestCase):
+    
+    def setUp(self):
+        login_test_user(self)
+        
     def test_view_with_no_articles(self):
         response = self.client.get(reverse("backend:index"))
         self.assertContains(response, NO_ARTICLES_STRING)
         self.assertQuerysetEqual(response.context['latest_articles'], [])
+        
     
     def test_view_with_multiple_past_and_multiple_future_article(self):
         create_article("past article", "", -5)
@@ -25,6 +35,10 @@ class BackendIndexViewTests(TestCase):
         self.assertQuerysetEqual(response.context['latest_articles'], ['<Article: future article>','<Article: tomorrows article>','<Article: past article>','<Article: very old article>'])
 
 class ArticleDetailViewTests(TestCase):
+    
+    def setUp(self):
+        login_test_user(self)
+        
     def test_view_with_past_article(self):
         article_past = create_article("past article", "past article content", -5)
         response = self.client.get(reverse("backend:detail", args=(article_past.id,)))
@@ -38,6 +52,10 @@ class ArticleDetailViewTests(TestCase):
         self.assertContains(response, article_future.content)
         
 class ArticleCreateTests(TestCase):
+    
+    def setUp(self):
+        login_test_user(self)
+    
     def test_view_contains_heading_and_content(self):
         response = self.client.get(reverse("backend:create"))
         self.assertContains(response, "heading")
@@ -80,6 +98,10 @@ class ArticleCreateTests(TestCase):
         self.assertQuerysetEqual(response.context['latest_articles'], [])
         
 class ArticleDeleteTests(TestCase):
+    
+    def setUp(self):
+        login_test_user(self)
+        
     def test_delete_existing_article(self):
         article = create_article("heading", "my long content", -5)
         response = self.client.post(reverse("backend:delete"), {"pk":article.id})
@@ -101,6 +123,10 @@ class ArticleDeleteTests(TestCase):
         self.assertQuerysetEqual(response.context['latest_articles'], ['<Article: other heading>'])
         
 class ArticleEditTests(TestCase):
+    
+    def setUp(self):
+        login_test_user(self)
+        
     def test_if_fields_are_set(self):
         article = create_article("my heading", "my long content", -5)
         response = self.client.get(reverse("backend:edit", args=(article.id,)))

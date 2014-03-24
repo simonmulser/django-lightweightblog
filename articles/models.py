@@ -18,4 +18,7 @@ class Article (models.Model):
     
     def validate(self, value):
         self.heading.validate()
+        
+    def intro(self):
+        return self.content[:100]
 
