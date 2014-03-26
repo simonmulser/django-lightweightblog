@@ -7,7 +7,7 @@
 {% if latest_articles %}
 	{% for article in latest_articles %}
 		<h3>{{ article.heading }}</h3> 
-		<p>{{ article.intro }}... <a href="{% url 'articles:detail' article.id %}">[Further reading]</a></p>
+		<p>{{ article.intro | safe }}... <a href="{% url 'articles:detail' article.id %}">[Further reading]</a></p>
 	{% endfor %}
 	{% else %}
 	<p>No articles are available.</p>

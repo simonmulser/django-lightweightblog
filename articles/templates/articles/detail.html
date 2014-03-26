@@ -3,6 +3,6 @@
 {% block container %}
 
 <h1>{{ article.heading }}</h1>
-{{ article.content }}
+{{ article.content | safe}}
 
 {% endblock %}
