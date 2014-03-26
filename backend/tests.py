@@ -86,13 +86,13 @@ class ArticleCreateTests(TestCase):
         self.assertQuerysetEqual(response.context['latest_articles'], [])
         
     def test_form_create_with_to_long_content(self):
-        response = self.client.post(reverse("backend:create"), {"heading":VALID_HEADING, "content":"c"*501, "publication": timezone.now()})
+        response = self.client.post(reverse("backend:create"), {"heading":VALID_HEADING, "content":"c"*10001, "publication": timezone.now()})
         self.assertContains(response, ERROR_MARKUP)
         response = self.client.get(reverse("backend:index"))
         self.assertQuerysetEqual(response.context['latest_articles'], [])
         
     def test_form_create_with_invalid_date(self):
-        response = self.client.post(reverse("backend:create"), {"heading":VALID_HEADING, "content":"c"*501, "publication": "date"})
+        response = self.client.post(reverse("backend:create"), {"heading":VALID_HEADING, "content":VALID_CONTENT , "publication": "date"})
         self.assertContains(response, ERROR_MARKUP)
         response = self.client.get(reverse("backend:index"))
         self.assertQuerysetEqual(response.context['latest_articles'], [])
