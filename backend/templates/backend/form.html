@@ -1,5 +1,7 @@
 {% extends "backend.html" %}
 
+{% load widget_tweaks %}
+
 {% block container %}
 
 <h1>Create new article</h1>
@@ -10,21 +12,27 @@
 {% csrf_token %}
  	<div class="form-group">
 		<label for="id_heading">Heading</label>
-		<input placeholder="Your heading" id="id_heading" class="form-control" maxlength="100" name="heading" type="text" value="{{ form.heading.value|default:'' }}">
-        {% if form.heading.errors %}<div class="error">{{ form.heading.errors }}</div>{% endif %}
+		{% render_field form.heading placeholder="Your heading" class+="form-control"%}
+		{% if form.heading.errors %}<div class="error">{{ form.heading.errors }}</div>{% endif %}
 	</div>
 	<div class="form-group">
         <label for="id_content">Content</label>
-        <textarea placeholder="Your content ..." id="id_content" class="form-control" maxlength="500" rows="5" cols="10" name="content" >{{ form.content.value|default:''  }}</textarea>
+        {% render_field form.content placeholder="Your content ..." class+="form-control"%}
         {% if form.content.errors %}<div class="error">{{ form.content.errors }}</div>{% endif %}
 	</div>
 	<div class="form-group">
-        <label for="id_publication">Publication (Format YYYY-MM-DD HH:MM)</label>
-        <input placeholder="YYYY-MM-DD HH:MM" id="id_publication" class="form-control" style="width: 200px" name="publication" type="text" value="{{ form.publication.value|date:"Y-m-d H:i" }}">
+        <label for="id_publication">Publication</label>
+        {% render_field form.publication placeholder="YYYY-MM-DD HH:MM:SS" class+="form-control datetime" %}
         {% if form.publication.errors %}<div class="error">{{ form.publication.errors }}</div>{% endif %}
     </div>
     <input type="submit" class="btn btn-primary" value="submit" />
     <a href="{% url 'backend:index' %}"><button type="button" class="btn btn-default">cancel</button></a>
 </form>
-
 {% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+    $(".datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii:ss'});
+</script> 
+{% endblock %}
+            

@@ -31,13 +31,13 @@ body {
   z-index: 2;
 }
 
-.form-signin input[type="email"] {
+.form-signin .username {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.form-signin input[type="password"] {
+.form-signin .password {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -61,5 +61,9 @@ ul.errorlist{
 }
 .error li{
 		list-style-type: none;
+}
+
+.datetime{
+	width: 200px;
 }
 
