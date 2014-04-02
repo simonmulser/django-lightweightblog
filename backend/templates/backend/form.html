@@ -22,7 +22,7 @@
 	</div>
 	<div class="form-group">
         <label for="id_publication">Publication</label>
-        {% render_field form.publication placeholder="YYYY-MM-DD HH:MM:SS" class+="form-control datetime" %}
+        {% render_field form.publication placeholder="YYYY-MM-DD HH:MM" class+="form-control datetime" %}
         {% if form.publication.errors %}<div class="error">{{ form.publication.errors }}</div>{% endif %}
     </div>
     <input type="submit" class="btn btn-primary" value="submit" />
@@ -32,7 +32,7 @@
 
 {% block javascript %}
 <script type="text/javascript">
-    $(".datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii:ss'});
+    $(".datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
 </script> 
 {% endblock %}
             
